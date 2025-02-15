@@ -1,9 +1,7 @@
 package nl.hannahschellekens.grill.model
 
-import nl.hannahschellekens.grill.view.DiagonalView
-import nl.hannahschellekens.grill.view.EmptyView
-import nl.hannahschellekens.grill.view.MatrixView
-import nl.hannahschellekens.grill.view.View
+import nl.hannahschellekens.grill.util.Direction
+import nl.hannahschellekens.grill.view.*
 
 operator fun <T> Matrix<T>.get(elementIndex: Int): T {
     val row = elementIndex / width
@@ -37,3 +35,7 @@ else when (this) {
 }
 
 fun <T> Matrix<T>.diagonal(): View<T> = DiagonalView(this)
+
+infix fun <T> Matrix<T>.hstack(right: Matrix<T>): View<T> = JoinedView(this, right, direction = Direction.RIGHT)
+
+infix fun <T> Matrix<T>.vstack(bottom: Matrix<T>): View<T> = JoinedView(this, bottom, direction = Direction.BOTTOM)

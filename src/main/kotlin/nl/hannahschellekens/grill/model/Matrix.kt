@@ -19,6 +19,11 @@ interface Matrix<T> {
 
     fun defaultPrinter(): MatrixPrinter = ListMatrixPrinter<T>(newLines = true)
     fun printString() = defaultPrinter().toMatrixString(this)
+
+    fun boundsCheck(row: Int, col: Int) {
+        check(row in 0 until height) { "Row <$row> out of bounds (0 until $height)" }
+        check(col in 0 until width) { "Column <$col> out of bounds (0 until $width)" }
+    }
 }
 
 /**

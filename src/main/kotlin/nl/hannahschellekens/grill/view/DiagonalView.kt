@@ -31,15 +31,13 @@ class DiagonalView<T>(
     private fun rowIndex(row: Int, col: Int) = if (isTransposed) col else row
 
     override fun get(row: Int, col: Int): T {
-        check(row in 0 until height) { "Row <$row> out of bounds (0 until $height)" }
-        check(col in 0 until width) { "Column <$col> out of bounds (0 until $width)" }
+        boundsCheck(row, col)
 
         return matrix[rowIndex(row, col), rowIndex(row, col)]
     }
 
     override fun set(row: Int, col: Int, value: T) {
-        check(row in 0 until height) { "Row <$row> out of bounds (0 until $height)" }
-        check(col in 0 until width) { "Column <$col> out of bounds (0 until $width)" }
+        boundsCheck(row, col)
 
         if (matrix is MutableMatrix) {
             matrix[rowIndex(row, col), rowIndex(row, col)] = value
