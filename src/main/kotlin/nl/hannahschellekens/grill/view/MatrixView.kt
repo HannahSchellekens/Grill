@@ -2,6 +2,8 @@ package nl.hannahschellekens.grill.view
 
 import nl.hannahschellekens.grill.matrix.Matrix
 import nl.hannahschellekens.grill.matrix.MutableMatrix
+import nl.hannahschellekens.grill.matrix.get
+import nl.hannahschellekens.grill.matrix.set
 
 /**
  * @author Hannah Schellekens
@@ -29,14 +31,18 @@ class MatrixView<T>(
     override fun get(row: Int, col: Int): T {
         boundsCheck(row, col)
 
-        return matrix[pivotRow + rowIndex(row, col), pivotCol + colIndex(row, col)]
+        val rowIndex = pivotRow + rowIndex(row, col)
+        val colIndex = pivotCol + colIndex(row, col)
+        return matrix[rowIndex * width + colIndex]
     }
 
     override fun set(row: Int, col: Int, value: T) {
         boundsCheck(row, col)
 
         if (matrix is MutableMatrix) {
-            matrix[pivotRow + rowIndex(row, col), pivotCol + colIndex(row, col)] = value
+            val rowIndex = pivotRow + rowIndex(row, col)
+            val colIndex = pivotCol + colIndex(row, col)
+            matrix[rowIndex * width + colIndex] = value
         }
         else error("Matrix is not of mutable.")
     }

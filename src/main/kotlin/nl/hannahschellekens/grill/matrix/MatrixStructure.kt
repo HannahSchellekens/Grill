@@ -9,6 +9,12 @@ operator fun <T> Matrix<T>.get(elementIndex: Int): T {
     return this[row, col]
 }
 
+operator fun <T> MutableMatrix<T>.set(elementIndex: Int, value: T) {
+    val row = elementIndex / width
+    val col = elementIndex % width
+    this[row, col] = value
+}
+
 operator fun <T> Matrix<T>.get(rowCol: Pair<Int, Int>) = get(rowCol.first, rowCol.second)
 
 fun Matrix<Int>.toMatrix() = IntMatrix(width, height, IntArray(size) {
@@ -43,3 +49,14 @@ fun <T> Matrix<T>.hstack(right: Matrix<T>, repetitions: Int = 1): View<T> {
 fun <T> Matrix<T>.vstack(bottom: Matrix<T>, repetitions: Int = 1): View<T> {
     return JoinedView(this, bottom, direction = Direction.DOWN, repetitions = repetitions)
 }
+
+fun <T> Matrix<T>.reshape(width: Int, height: Int): View<T> {
+    check(size == width * height) {
+        "Cannot reshape a matrix of size <$size> to ${Dimension(width, height)}"
+    }
+    return MatrixView(this, 0, width, height)
+}
+
+fun <T> Matrix<T>.reshape(dimension: Dimension) = reshape(dimension.width, dimension.height)
+
+fun <T> Matrix<T>.reshape(widthHeight: Pair<Int, Int>) = reshape(widthHeight.first, widthHeight.second)
