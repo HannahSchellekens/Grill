@@ -5,9 +5,9 @@ package nl.hannahschellekens.grill.util
  */
 enum class Direction(val isHorizontal: Boolean) {
 
-    TOP(false),
+    UP(false),
     RIGHT(true),
-    BOTTOM(false),
+    DOWN(false),
     LEFT(true),
     ;
 

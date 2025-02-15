@@ -36,6 +36,10 @@ else when (this) {
 
 fun <T> Matrix<T>.diagonal(): View<T> = DiagonalView(this)
 
-infix fun <T> Matrix<T>.hstack(right: Matrix<T>): View<T> = JoinedView(this, right, direction = Direction.RIGHT)
+fun <T> Matrix<T>.hstack(right: Matrix<T>, repetitions: Int = 1): View<T> {
+    return JoinedView(this, right, direction = Direction.RIGHT, repetitions = repetitions)
+}
 
-infix fun <T> Matrix<T>.vstack(bottom: Matrix<T>): View<T> = JoinedView(this, bottom, direction = Direction.BOTTOM)
+fun <T> Matrix<T>.vstack(bottom: Matrix<T>, repetitions: Int = 1): View<T> {
+    return JoinedView(this, bottom, direction = Direction.DOWN, repetitions = repetitions)
+}

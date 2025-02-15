@@ -10,6 +10,7 @@ class JoinedView<T>(
     val baseMatrix: Matrix<T>,
     val joinedMatrix: Matrix<T>,
     val direction: Direction = Direction.RIGHT,
+    val repetitions: Int = 1,
     override val pivot: Int = 0,
     override var isTransposed: Boolean = false
 ) : MutableView<T> {
@@ -26,12 +27,12 @@ class JoinedView<T>(
     override val matrix: Matrix<T> = this
 
     override val width: Int = when {
-        direction.isHorizontal -> baseMatrix.width + joinedMatrix.width
+        direction.isHorizontal -> baseMatrix.width + joinedMatrix.width * repetitions
         else -> baseMatrix.width
     }
 
     override val height: Int = when {
-        direction.isVertical -> baseMatrix.height + joinedMatrix.height
+        direction.isVertical -> baseMatrix.height + joinedMatrix.height * repetitions
         else -> baseMatrix.height
     }
 
@@ -47,11 +48,11 @@ class JoinedView<T>(
     }
 
     private fun verticalGet(row: Int, col: Int): T {
-        val first = if (direction == Direction.TOP) joinedMatrix else baseMatrix
-        val second = if (direction == Direction.TOP) baseMatrix else joinedMatrix
+        val first = if (direction == Direction.UP) joinedMatrix else baseMatrix
+        val second = if (direction == Direction.UP) baseMatrix else joinedMatrix
 
         return if (row >= first.height) {
-            second[row - first.height, col]
+            second[(row - first.height) % second.height, col]
         }
         else first[row, col]
     }
@@ -61,7 +62,7 @@ class JoinedView<T>(
         val second = if (direction == Direction.LEFT) baseMatrix else joinedMatrix
 
         return if (col >= first.width) {
-            second[row, col - first.width]
+            second[row, (col - first.width) % second.width]
         }
         else first[row, col]
     }
@@ -75,8 +76,8 @@ class JoinedView<T>(
     }
 
     private fun verticalSet(row: Int, col: Int, value: T) {
-        val first = if (direction == Direction.TOP) joinedMatrix else baseMatrix
-        val second = if (direction == Direction.TOP) baseMatrix else joinedMatrix
+        val first = if (direction == Direction.UP) joinedMatrix else baseMatrix
+        val second = if (direction == Direction.UP) baseMatrix else joinedMatrix
     }
 
     private fun horizontalSet(row: Int, col: Int, value: T) {

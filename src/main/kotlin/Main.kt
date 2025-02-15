@@ -21,13 +21,18 @@ fun main() {
     println(B)
     println()
 
-    val AB = A hstack B
+    val AB = A.vstack(B)
     println("[AB] Dim: ${AB.dimension}, Size: ${AB.size}, Max: ${AB.max()}, Min: ${AB.min()}")
     println(AB)
     println()
 
-    val ABAB = AB vstack AB
+    val ABAB = AB.vstack(AB)
     println("[ABAB] Dim: ${ABAB.dimension}, Size: ${ABAB.size}, Max: ${ABAB.max()}, Min: ${ABAB.min()}")
     println(ABAB)
+    println()
+
+    val ABB = JoinedView(A, B, repetitions = 2)
+    println("[ABB] Dim: ${ABB.dimension}, Size: ${ABB.size}, Max: ${ABB.max()}, Min: ${ABB.min()}")
+    println(ABB)
     println()
 }
