@@ -12,7 +12,7 @@ import nl.hannahschellekens.grill.view.view
  */
 fun main() {
 
-    val A = IntMatrix(4, 6, IntArray(24) { it + 1 })
+    val A = intMatrix(4, 6) { it + 1 }
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
     println()
@@ -22,5 +22,9 @@ fun main() {
     println(reshaped)
     println()
 
-
+    val vectors = (1..3).map {
+        (1..5).shuffled().toRowIntVector().reshape(1, 5)
+    }
+    println(vectors)
+    println(vectors.joinColumnIntVectors())
 }

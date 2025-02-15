@@ -60,3 +60,51 @@ fun <T> Matrix<T>.reshape(width: Int, height: Int): View<T> {
 fun <T> Matrix<T>.reshape(dimension: Dimension) = reshape(dimension.width, dimension.height)
 
 fun <T> Matrix<T>.reshape(widthHeight: Pair<Int, Int>) = reshape(widthHeight.first, widthHeight.second)
+
+fun List<Matrix<Int>>.joinRowIntVectors(): Matrix<Int> {
+    if (isEmpty()) return IntMatrix(0, 0, IntArray(0))
+
+    val height = size
+    val width = this[0].width
+    return IntMatrix(width, height, IntArray(width * height) {
+        val row = it / width
+        val col = it % width
+        this[row][0, col]
+    })
+}
+
+fun List<Matrix<Int>>.joinColumnIntVectors(): Matrix<Int> {
+    if (isEmpty()) return IntMatrix(0, 0, IntArray(0))
+
+    val height = this[0].height
+    val width = size
+    return IntMatrix(width, height, IntArray(width * height) {
+        val row = it / width
+        val col = it % width
+        this[col][row, 0]
+    })
+}
+
+fun List<Matrix<Double>>.joinRowDoubleVectors(): Matrix<Double> {
+    if (isEmpty()) return DoubleMatrix(0, 0, DoubleArray(0))
+
+    val height = size
+    val width = this[0].width
+    return DoubleMatrix(width, height, DoubleArray(width * height) {
+        val row = it / width
+        val col = it % width
+        this[row][0, col]
+    })
+}
+
+fun List<Matrix<Double>>.joinColumnDoubleVectors(): Matrix<Double> {
+    if (isEmpty()) return DoubleMatrix(0, 0, DoubleArray(0))
+
+    val height = this[0].height
+    val width = size
+    return DoubleMatrix(width, height, DoubleArray(width * height) {
+        val row = it / width
+        val col = it % width
+        this[col][row, 0]
+    })
+}
