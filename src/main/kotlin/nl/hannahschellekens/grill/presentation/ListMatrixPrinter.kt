@@ -31,7 +31,7 @@ open class ListMatrixPrinter<T>(
             for (row in matrix.height.range) {
                 startGroup {
                     val rowString = matrix.width.range.joinToString(", ") { col ->
-                        format.format(elements[row * matrix.width + col])
+                        format.format(elements[row * matrix.width + col].replace(',', '.'))
                     }
                     append(rowString)
                 }
