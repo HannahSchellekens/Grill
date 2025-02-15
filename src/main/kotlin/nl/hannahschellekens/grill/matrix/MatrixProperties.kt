@@ -1,4 +1,4 @@
-package nl.hannahschellekens.grill.model
+package nl.hannahschellekens.grill.matrix
 
 val <T> Matrix<T>.size: Int
     get() = width * height

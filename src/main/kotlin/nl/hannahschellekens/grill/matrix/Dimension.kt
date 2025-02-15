@@ -1,4 +1,4 @@
-package nl.hannahschellekens.grill.model
+package nl.hannahschellekens.grill.matrix
 
 /**
  * @author Hannah Schellekens

@@ -1,7 +1,7 @@
 package nl.hannahschellekens.grill.view
 
-import nl.hannahschellekens.grill.model.Matrix
-import nl.hannahschellekens.grill.model.MutableMatrix
+import nl.hannahschellekens.grill.matrix.Matrix
+import nl.hannahschellekens.grill.matrix.MutableMatrix
 
 /**
  * @author Hannah Schellekens

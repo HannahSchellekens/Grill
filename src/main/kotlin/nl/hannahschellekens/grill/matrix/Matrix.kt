@@ -1,9 +1,7 @@
-package nl.hannahschellekens.grill.model
+package nl.hannahschellekens.grill.matrix
 
 import nl.hannahschellekens.grill.presentation.ListMatrixPrinter
 import nl.hannahschellekens.grill.presentation.MatrixPrinter
-import nl.hannahschellekens.grill.view.MutableView
-import nl.hannahschellekens.grill.view.View
 
 /**
  * Row-Major Order (RMO) by default.

@@ -1,6 +1,6 @@
 package nl.hannahschellekens.grill.operations
 
-import nl.hannahschellekens.grill.model.*
+import nl.hannahschellekens.grill.matrix.*
 
 inline fun <T> Matrix<T>.extremum(compare: (T, T) -> Int): T {
     check(size > 0) { "Matrix size must be greater than zero, got <$size>." }

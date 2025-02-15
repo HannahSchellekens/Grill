@@ -1,8 +1,8 @@
 package nl.hannahschellekens.grill.presentation
 
-import nl.hannahschellekens.grill.model.Matrix
-import nl.hannahschellekens.grill.model.elements
-import nl.hannahschellekens.grill.model.isEmpty
+import nl.hannahschellekens.grill.matrix.Matrix
+import nl.hannahschellekens.grill.matrix.elements
+import nl.hannahschellekens.grill.matrix.isEmpty
 import nl.hannahschellekens.grill.util.range
 import nl.hannahschellekens.grill.util.startGroup
 

@@ -1,9 +1,8 @@
 package nl.hannahschellekens.grill
 
-import nl.hannahschellekens.grill.model.*
+import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.operations.max
 import nl.hannahschellekens.grill.operations.min
-import nl.hannahschellekens.grill.util.Direction
 import nl.hannahschellekens.grill.view.JoinedView
 
 /**

@@ -1,4 +1,4 @@
-package nl.hannahschellekens.grill.model
+package nl.hannahschellekens.grill.matrix
 
 import nl.hannahschellekens.grill.util.Direction
 import nl.hannahschellekens.grill.view.*

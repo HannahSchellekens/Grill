@@ -1,6 +1,6 @@
 package nl.hannahschellekens.grill.presentation
 
-import nl.hannahschellekens.grill.model.Matrix
+import nl.hannahschellekens.grill.matrix.Matrix
 
 /**
  * @author Hannah Schellekens
