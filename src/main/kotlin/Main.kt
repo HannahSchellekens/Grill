@@ -3,18 +3,22 @@ package nl.hannahschellekens.grill
 import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.operations.max
 import nl.hannahschellekens.grill.operations.min
-import nl.hannahschellekens.grill.view.JoinedView
-import nl.hannahschellekens.grill.view.MatrixView
-import nl.hannahschellekens.grill.view.view
+import nl.hannahschellekens.grill.view.*
 
 /**
  * @author Hannah Schellekens
  */
 fun main() {
 
-    val A = intMatrix(4, 6) { it + 1 }
+    val A = intMatrix(4, 6) { i -> i + 1 }
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
+    println()
+
+    println(A.viewRow(2))
+    println(A.viewColumn(2)) // Dit gaat fout, hij pakt niet ieder element uit de kolom, maar
+    println(A[0..5, 2..3])       // sequentiele elementen...
+    A.columns().forEach { println(it) } // Kijk maar, helemaal wak. Werkte eerste wel.
     println()
 
     val reshaped = A.reshape(6, 4)

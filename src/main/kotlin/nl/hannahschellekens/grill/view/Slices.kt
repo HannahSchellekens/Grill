@@ -24,3 +24,11 @@ fun <T> Matrix<T>.viewColumnsUntil(endColumnExclusive: Int): View<T> {
 fun <T> Matrix<T>.viewRowsUntil(endRowExclusive: Int): View<T> {
     return MatrixView(this, 0, width, endRowExclusive)
 }
+
+fun <T> Matrix<T>.viewRow(row: Int): View<T> {
+    return MatrixView(this, row * width, width, 1)
+}
+
+fun <T> Matrix<T>.viewColumn(col: Int): View<T> {
+    return MatrixView(this, col, 1, height)
+}
