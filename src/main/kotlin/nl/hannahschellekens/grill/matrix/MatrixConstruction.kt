@@ -157,3 +157,11 @@ fun List<Double>.toColumnDoubleVector(): Matrix<Double> = doubleColumnVectorOf(t
 fun constant(width: Int, height: Int, value: Int): Matrix<Int> = ConstantMatrix(width, height, value)
 
 fun constant(width: Int, height: Int, value: Double): Matrix<Double> = ConstantMatrix(width, height, value)
+
+fun computedIntMatrix(width: Int, height: Int, valueProducer: (row: Int, col: Int) -> Int): Matrix<Int> {
+    return ComputedMatrix(width, height, valueProducer)
+}
+
+fun computedDoubleMatrix(width: Int, height: Int, valueProducer: (row: Int, col: Int) -> Double): Matrix<Double> {
+    return ComputedMatrix(width, height, valueProducer)
+}
