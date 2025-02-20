@@ -18,7 +18,7 @@ fun main() {
     println()
 
     val mutA = A.mutable!!
-    val ones = intMatrix(4, 6) { _ -> 999 }
+    val ones = constant(4, 6, 999)
 
     mutA[{ it > 15 }] = ones
 

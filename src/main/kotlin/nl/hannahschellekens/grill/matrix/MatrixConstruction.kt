@@ -153,3 +153,7 @@ fun doubleColumnVectorOf(elements: List<Double>): Matrix<Double> {
 }
 
 fun List<Double>.toColumnDoubleVector(): Matrix<Double> = doubleColumnVectorOf(this)
+
+fun constant(width: Int, height: Int, value: Int): Matrix<Int> = ConstantMatrix(width, height, value)
+
+fun constant(width: Int, height: Int, value: Double): Matrix<Double> = ConstantMatrix(width, height, value)
