@@ -31,18 +31,18 @@ class MatrixView<T>(
     override fun get(row: Int, col: Int): T {
         boundsCheck(row, col)
 
-        val rowIndex = pivotRow + rowIndex(row, col)
-        val colIndex = pivotCol + colIndex(row, col)
-        return matrix[rowIndex * width + colIndex]
+        val rowIndex = rowIndex(row, col)
+        val colIndex = colIndex(row, col)
+        return matrix[pivot + rowIndex * matrix.width + colIndex]
     }
 
     override fun set(row: Int, col: Int, value: T) {
         boundsCheck(row, col)
 
         if (matrix is MutableMatrix) {
-            val rowIndex = pivotRow + rowIndex(row, col)
-            val colIndex = pivotCol + colIndex(row, col)
-            matrix[rowIndex * width + colIndex] = value
+            val rowIndex = rowIndex(row, col)
+            val colIndex = colIndex(row, col)
+            matrix[pivot + rowIndex * matrix.width + colIndex] = value
         }
         else error("Matrix is not of mutable.")
     }
