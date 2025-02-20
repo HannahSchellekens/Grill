@@ -126,8 +126,7 @@ fun <T> MutableMatrix<T>.setColumns(columnIndices: Matrix<Int>, vararg columnVec
         "Must be a column or row vector, got <$dimension>"
     }
 
-    val columnIndexVector = if (columnIndices.height == 1) columnIndices else columnIndices.transposed()
-
+    val columnIndexVector = columnIndices.horizontal()
     for (index in columnIndexVector.columnIndices) {
         val colIndex = columnIndices[index]
         val colValue = columnVectors[index]
@@ -144,8 +143,7 @@ fun <T> MutableMatrix<T>.setColumnsFromMatrix(columnIndices: Matrix<Int>, column
         "Must be a column or row vector, got <$dimension>"
     }
 
-    val columnIndexVector = if (columnIndices.height == 1) columnIndices else columnIndices.transposed()
-
+    val columnIndexVector = columnIndices.horizontal()
     for (index in columnIndexVector.columnIndices) {
         val colIndex = columnIndexVector[index]
 

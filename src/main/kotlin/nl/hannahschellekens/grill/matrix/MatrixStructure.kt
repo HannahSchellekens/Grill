@@ -46,6 +46,10 @@ else when (this) {
     else -> MatrixView(this, 0, width, height, isTransposed = true)
 }
 
+fun <T> Matrix<T>.horizontal(): View<T> = if (height > width) transposed() else view()
+
+fun <T> Matrix<T>.vertical(): View<T> = if (width > height) transposed() else view()
+
 fun <T> Matrix<T>.diagonal(): View<T> = DiagonalView(this)
 
 fun <T> Matrix<T>.hstack(right: Matrix<T>, repetitions: Int = 1): View<T> {
