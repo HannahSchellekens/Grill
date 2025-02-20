@@ -3,6 +3,8 @@ package nl.hannahschellekens.grill
 import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.operations.max
 import nl.hannahschellekens.grill.operations.min
+import nl.hannahschellekens.grill.operations.set
+import nl.hannahschellekens.grill.operations.setWhen
 import nl.hannahschellekens.grill.view.*
 
 /**
@@ -15,7 +17,12 @@ fun main() {
     println(A)
     println()
 
-    val sqA = A.squareView(0xCAFE)
-    println(sqA)
+    val mutA = A.mutable!!
+    val ones = intMatrix(4, 6) { _ -> 999 }
+
+    mutA[{ it > 15 }] = ones
+
+    println(ones)
+    println(mutA)
     println()
 }

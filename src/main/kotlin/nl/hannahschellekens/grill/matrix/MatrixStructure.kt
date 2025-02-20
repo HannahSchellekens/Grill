@@ -9,10 +9,11 @@ operator fun <T> Matrix<T>.get(elementIndex: Int): T {
     return this[row, col]
 }
 
-operator fun <T> MutableMatrix<T>.set(elementIndex: Int, value: T) {
+operator fun <T> MutableMatrix<T>.set(elementIndex: Int, value: T): MutableMatrix<T> {
     val row = elementIndex / width
     val col = elementIndex % width
     this[row, col] = value
+    return this
 }
 
 operator fun <T> Matrix<T>.get(rowCol: Pair<Int, Int>) = get(rowCol.first, rowCol.second)

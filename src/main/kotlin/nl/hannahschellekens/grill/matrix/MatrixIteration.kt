@@ -53,3 +53,11 @@ class MatrixColumnIterator<T>(private val matrix: Matrix<T>): Iterator<Matrix<T>
 }
 
 fun <T> Matrix<T>.columns() = MatrixColumnIterator(this)
+
+inline fun <T> Matrix<T>.forRowAndColumns(action: (row: Int, col: Int) -> Unit) {
+    for (row in rowIndices) {
+        for (col in columnIndices) {
+            action(row, col)
+        }
+    }
+}

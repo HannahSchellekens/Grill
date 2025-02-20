@@ -12,10 +12,14 @@ open class DoubleMatrix(
 ) : MutableMatrix<Double> {
 
     override fun set(row: Int, col: Int, value: Double) {
+        boundsCheck(row, col)
+
         elements[row * width + col] = value
     }
 
     override fun get(row: Int, col: Int): Double {
+        boundsCheck(row, col)
+
         return elements[row * width + col]
     }
 
