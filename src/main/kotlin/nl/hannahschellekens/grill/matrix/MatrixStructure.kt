@@ -97,3 +97,63 @@ fun List<Matrix<Double>>.joinColumnDoubleVectors(): Matrix<Double> {
         this[col][row, 0]
     })
 }
+
+fun Matrix<Int>.deleteIntRow(row: Int): Matrix<Int> = when {
+    isEmpty() -> error("Cannot delete row from empty matrix.")
+    height == 1 -> IntMatrix(width, 0, IntArray(0))
+    else -> {
+        IntMatrix(width, height - 1, IntArray(width * (height - 1)) {
+            if (it < width * row) {
+                this[it]
+            }
+            else this[it + width]
+        })
+    }
+}
+
+fun Matrix<Double>.deleteDoubleRow(row: Int): Matrix<Double> = when {
+    isEmpty() -> error("Cannot delete row from empty matrix.")
+    height == 1 -> DoubleMatrix(width, 0, DoubleArray(0))
+    else -> {
+        DoubleMatrix(width, height - 1, DoubleArray(width * (height - 1)) {
+            if (it < width * row) {
+                this[it]
+            }
+            else this[it + width]
+        })
+    }
+}
+
+fun Matrix<Int>.deleteIntColumn(col: Int): Matrix<Int> = when {
+    isEmpty() -> error("Cannot delete row from empty matrix.")
+    width == 1 -> IntMatrix(0, height, IntArray(0))
+    else -> {
+        val newWidth = width - 1
+        IntMatrix(newWidth, height, IntArray(newWidth * height) {
+            if (it < col) {
+                this[it]
+            }
+            else {
+                val skips = (it - col + newWidth) / newWidth
+                this[it + skips]
+            }
+        })
+    }
+}
+
+fun Matrix<Double>.deleteDoubleColumn(col: Int): Matrix<Double> = when {
+    isEmpty() -> error("Cannot delete row from empty matrix.")
+    width == 1 -> DoubleMatrix(0, height, DoubleArray(0))
+    else -> {
+        val newWidth = width - 1
+        DoubleMatrix(newWidth, height, DoubleArray(newWidth * height) {
+            if (it < col) {
+                this[it]
+            }
+            else {
+                val skips = (it - col + newWidth) / newWidth
+                this[it + skips]
+            }
+        })
+    }
+}

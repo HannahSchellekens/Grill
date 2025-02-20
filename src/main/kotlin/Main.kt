@@ -14,8 +14,4 @@ fun main() {
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
     println()
-
-    println(A.viewColumn(2))
-    println(A.viewColumn(2)[3, 0])
-    println()
 }
