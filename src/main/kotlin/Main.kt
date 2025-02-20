@@ -14,4 +14,8 @@ fun main() {
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
     println()
+
+    val sqA = A.squareView(0xCAFE)
+    println(sqA)
+    println()
 }

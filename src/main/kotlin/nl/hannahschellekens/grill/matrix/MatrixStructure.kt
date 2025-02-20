@@ -32,6 +32,11 @@ else when (this) {
     is DiagonalView<T> -> {
         DiagonalView(matrix, isTransposed = isTransposed.not())
     }
+    is EmptyView<T> -> this
+    is SquareView<T> -> {
+        isTransposed = true
+        this
+    }
     is View<T> -> {
         val theWidth = if (isTransposed) height else width
         val theHeight = if (isTransposed) width else height
@@ -157,3 +162,5 @@ fun Matrix<Double>.deleteDoubleColumn(col: Int): Matrix<Double> = when {
         })
     }
 }
+
+fun <T> Matrix<T>.squareView(padding: T): View<T> = SquareView(this, padding)
