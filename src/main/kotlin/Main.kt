@@ -8,22 +8,14 @@ import nl.hannahschellekens.grill.operations.*
  */
 fun main() {
 
-    val A = intMatrix(4, 6) { i -> i + 1 }
+    val A = intMatrix(3, 3) { i -> i + 1 }
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
     println()
 
     val mutA = A.mutable!!
 
-    val col2 = intColumnVectorOf(99, 999, 9999, 99999, 999999, 9999999)
-    val col4 = intColumnVectorOf(88, 888, 8888, 88888, 888888, 8888888)
-    val valueMatrix = col2.hstack(col4)
-    println(valueMatrix)
-    println()
-
-    val cols = intColumnVectorOf(1, 3)
-    mutA.setColumnsFromMatrix(cols, valueMatrix)
-
+    mutA.swapRows(0, 2)
+    mutA.swapColumns(1, 2)
     println(mutA)
-    println()
 }

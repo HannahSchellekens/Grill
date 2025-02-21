@@ -32,6 +32,22 @@ interface Matrix<T> {
 interface MutableMatrix<T> : Matrix<T> {
 
     operator fun set(row: Int, col: Int, value: T)
+
+    fun swapRows(row1: Int, row2: Int) {
+        for (col in columnIndices) {
+            val temp = this[row1, col]
+            this[row1, col] = this[row2, col]
+            this[row2, col] = temp
+        }
+    }
+
+    fun swapColumns(col1: Int, col2: Int) {
+        for (row in rowIndices) {
+            val temp = this[row, col1]
+            this[row, col1] = this[row, col2]
+            this[row, col2] = temp
+        }
+    }
 }
 
 val <T> Matrix<T>.mutable: MutableMatrix<T>?
