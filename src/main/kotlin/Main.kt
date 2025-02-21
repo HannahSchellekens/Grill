@@ -13,9 +13,13 @@ fun main() {
     println(A)
     println()
 
-    val mutA = A.mutable!!
+    val B = doubleMatrix(3, 3) { i -> i + 1.0 }
+    println("[B] Dim: ${B.dimension}, Size: ${B.size}, Max: ${B.max()}, Min: ${B.min()}")
+    println(B)
+    println()
 
-    mutA.swapRows(0, 2)
-    mutA.swapColumns(1, 2)
-    println(mutA)
+    val mutA = A.mutable!!
+    val mutB = B.mutable!!
+
+    println(3 * -B * 3)
 }

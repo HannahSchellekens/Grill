@@ -11,13 +11,13 @@ open class IntMatrix(
 ) : MutableMatrix<Int> {
 
     override fun set(row: Int, col: Int, value: Int) {
-        boundsCheck(row, col)
+        checkBounds(row, col)
 
         elements[row * width + col] = value
     }
 
     override fun get(row: Int, col: Int): Int {
-        boundsCheck(row, col)
+        checkBounds(row, col)
 
         return elements[row * width + col]
     }

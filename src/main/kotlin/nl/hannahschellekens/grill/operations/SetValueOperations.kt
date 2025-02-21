@@ -153,3 +153,22 @@ fun <T> MutableMatrix<T>.setColumnsFromMatrix(columnIndices: Matrix<Int>, column
     }
     return this
 }
+
+inline fun <T> MutableMatrix<T>.setAll(valueTransform: (originalValue: T) -> T): MutableMatrix<T> {
+    for (i in 0 until size) {
+        this[i] = valueTransform(this[i])
+    }
+    return this
+}
+
+inline fun <T> MutableMatrix<T>.setAllIndexed(
+    valueTransform: (row: Int, col: Int, originalValue: T) -> T
+): MutableMatrix<T> {
+    for (row in rowIndices) {
+        for (col in columnIndices) {
+            val element = this[row, col]
+            this[row, col] = valueTransform(row, col, element)
+        }
+    }
+    return this
+}

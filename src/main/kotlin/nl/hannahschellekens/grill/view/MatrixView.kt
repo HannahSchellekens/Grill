@@ -29,7 +29,7 @@ class MatrixView<T>(
     private fun colIndex(row: Int, col: Int) = if (isTransposed) row else col
 
     override fun get(row: Int, col: Int): T {
-        boundsCheck(row, col)
+        checkBounds(row, col)
 
         val rowIndex = rowIndex(row, col)
         val colIndex = colIndex(row, col)
@@ -37,7 +37,7 @@ class MatrixView<T>(
     }
 
     override fun set(row: Int, col: Int, value: T) {
-        boundsCheck(row, col)
+        checkBounds(row, col)
 
         if (matrix is MutableMatrix) {
             val rowIndex = rowIndex(row, col)

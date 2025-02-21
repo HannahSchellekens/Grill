@@ -3,8 +3,6 @@ package nl.hannahschellekens.grill.view
 import nl.hannahschellekens.grill.matrix.Matrix
 import nl.hannahschellekens.grill.matrix.MutableMatrix
 import nl.hannahschellekens.grill.matrix.dimension
-import nl.hannahschellekens.grill.matrix.isSquare
-import nl.hannahschellekens.grill.view.MutableView
 import kotlin.math.max
 
 /**
@@ -31,7 +29,7 @@ class SquareView<T>(
     private fun colIndex(row: Int, col: Int) = if (isTransposed) row else col
 
     override fun get(row: Int, col: Int): T {
-        boundsCheck(row, col)
+        checkBounds(row, col)
 
         val rowT = rowIndex(row, col)
         val colT = colIndex(row, col)

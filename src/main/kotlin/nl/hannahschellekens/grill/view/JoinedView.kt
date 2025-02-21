@@ -40,7 +40,7 @@ class JoinedView<T>(
     private fun colIndex(row: Int, col: Int) = if (isTransposed) row else col
 
     override fun get(row: Int, col: Int): T {
-        boundsCheck(rowIndex(row, col), colIndex(row, col))
+        checkBounds(rowIndex(row, col), colIndex(row, col))
         return when {
             direction.isVertical -> verticalGet(rowIndex(row, col), colIndex(row, col))
             else -> horizontalGet(rowIndex(row, col), colIndex(row, col))
@@ -68,7 +68,7 @@ class JoinedView<T>(
     }
 
     override fun set(row: Int, col: Int, value: T) {
-        boundsCheck(rowIndex(row, col), colIndex(row, col))
+        checkBounds(rowIndex(row, col), colIndex(row, col))
         when {
             direction.isVertical -> verticalSet(rowIndex(row, col), colIndex(row, col), value)
             else -> horizontalSet(rowIndex(row, col), colIndex(row, col), value)
