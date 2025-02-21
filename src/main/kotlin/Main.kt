@@ -21,5 +21,11 @@ fun main() {
     val mutA = A.mutable!!
     val mutB = B.mutable!!
 
-    println(3 * -B * 3)
+    val a = intMatrixOf(2, 2, 1, 3, -5, 2)
+    val b = intRowVectorOf(4, -2, -1)
+
+    println(a)
+    println(b)
+
+    println(a.dotProductInt(a))
 }
