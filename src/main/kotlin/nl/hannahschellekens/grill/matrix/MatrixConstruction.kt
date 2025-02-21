@@ -44,8 +44,8 @@ fun doubleMatrix(dimension: Dimension, elementProducer: (index: Int) -> Double):
 
 inline fun intMatrix(width: Int, height: Int, elementProducer: (row: Int, col: Int) -> Int): Matrix<Int> {
     return IntMatrix(width, height, IntArray(width * height) {
-        val row = it % width
-        val col = it / width
+        val row = it / width
+        val col = it % width
         elementProducer(row, col)
     })
 }
@@ -56,8 +56,8 @@ inline fun intMatrix(dimension: Dimension, elementProducer: (row: Int, col: Int)
 
 inline fun doubleMatrix(width: Int, height: Int, elementProducer: (row: Int, col: Int) -> Double): Matrix<Double> {
     return DoubleMatrix(width, height, DoubleArray(width * height) {
-        val row = it % width
-        val col = it / width
+        val row = it / width
+        val col = it % width
         elementProducer(row, col)
     })
 }
