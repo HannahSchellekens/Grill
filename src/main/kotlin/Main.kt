@@ -23,6 +23,6 @@ fun main() {
     val mutA = A.mutable!!
     val mutB = B.mutable!!
 
-    println(B * B * B * B)
-    println(B.power(4))
+    println((B * doubleIdentity(3)).contentEquals(B))
+    println(A.contentEqualsInt(A))
 }
