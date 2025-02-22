@@ -4,6 +4,7 @@ import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.power
 import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.powerInt
 import nl.hannahschellekens.grill.operations.*
+import nl.hannahschellekens.grill.view.viewColumn
 import nl.hannahschellekens.grill.view.viewRow
 import kotlin.system.measureTimeMillis
 
@@ -25,5 +26,6 @@ fun main() {
     val mutA = A.mutable!!
     val mutB = B.mutable!!
 
-    println(mutB.addRowFromMatrixModify(0, 2, 0.5))
+    println(mutA.addColumnIntModify(2, 0, 10))
+    println(mutB.addColumnModify(2, 0, 10.0))
 }
