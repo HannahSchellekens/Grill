@@ -26,6 +26,6 @@ fun main() {
     val mutA = A.mutable!!
     val mutB = B.mutable!!
 
-    val augmented = B.hstack(doubleIdentity(3)).toMatrix()
-    println(augmented.rowReduce().view(0..2, 3..5).toMatrix() * B)
+    println(A.toDoubleMatrix())
+    println(B.toIntMatrix())
 }
