@@ -37,9 +37,7 @@ fun MutableMatrix<Int>.scalarRowModify(row: Int, scalar: Int): MutableMatrix<Int
 }
 
 fun Matrix<Int>.scalarRow(row: Int, scalar: Int): Matrix<Int> {
-    val copy = toMatrix()
-    copy.scalarRowModify(row, scalar)
-    return copy
+    return toMatrix().scalarRowModify(row, scalar)
 }
 
 fun MutableMatrix<Int>.scalarColumnModify(col: Int, scalar: Int): MutableMatrix<Int> {
@@ -52,9 +50,7 @@ fun MutableMatrix<Int>.scalarColumnModify(col: Int, scalar: Int): MutableMatrix<
 }
 
 fun Matrix<Int>.scalarColumn(col: Int, scalar: Int): Matrix<Int> {
-    val copy = toMatrix()
-    copy.scalarColumnModify(col, scalar)
-    return copy
+    return toMatrix().scalarColumnModify(col, scalar)
 }
 
 fun MutableMatrix<Double>.scalarRowModify(row: Int, scalar: Double): MutableMatrix<Double> {
@@ -67,9 +63,7 @@ fun MutableMatrix<Double>.scalarRowModify(row: Int, scalar: Double): MutableMatr
 }
 
 fun Matrix<Double>.scalarRow(row: Int, scalar: Double): Matrix<Double> {
-    val copy = toMatrix()
-    copy.scalarRowModify(row, scalar)
-    return copy
+    return toMatrix().scalarRowModify(row, scalar)
 }
 
 fun MutableMatrix<Double>.scalarColumnModify(col: Int, scalar: Double): MutableMatrix<Double> {
@@ -82,9 +76,7 @@ fun MutableMatrix<Double>.scalarColumnModify(col: Int, scalar: Double): MutableM
 }
 
 fun Matrix<Double>.scalarColumn(col: Int, scalar: Double): Matrix<Double> {
-    val copy = toMatrix()
-    copy.scalarColumnModify(col, scalar)
-    return copy
+    return toMatrix().scalarColumnModify(col, scalar)
 }
 
 fun MutableMatrix<Int>.negateIntModify(): MutableMatrix<Int> = scalarModify(-1)

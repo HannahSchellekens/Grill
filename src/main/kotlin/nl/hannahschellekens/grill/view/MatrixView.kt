@@ -22,9 +22,6 @@ class MatrixView<T>(
     override val height: Int = initialHeight
         get() = if (isTransposed) initialWidth else field
 
-    private val pivotRow = pivot / matrix.width
-    private val pivotCol = pivot % matrix.width
-
     private fun rowIndex(row: Int, col: Int) = if (isTransposed) col else row
     private fun colIndex(row: Int, col: Int) = if (isTransposed) row else col
 
