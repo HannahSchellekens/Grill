@@ -1,8 +1,8 @@
 package nl.hannahschellekens.grill.operations
 
 import nl.hannahschellekens.grill.matrix.*
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.util.DEFAULT_EPSILON
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.util.approxEquals
+import nl.hannahschellekens.grill.util.DEFAULT_EPSILON
+import nl.hannahschellekens.grill.util.approxEquals
 
 fun Matrix<Int>.contentEqualsInt(other: Matrix<Int>): Boolean {
     if (width != other.width || height != other.height) return false
