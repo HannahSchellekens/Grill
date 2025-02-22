@@ -22,6 +22,4 @@ fun main() {
 
     val mutA = A.mutable!!
     val mutB = B.mutable!!
-
-    println(A.toDoubleMatrix().inverse())
 }
