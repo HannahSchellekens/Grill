@@ -23,6 +23,5 @@ fun main() {
     val mutA = A.mutable!!
     val mutB = B.mutable!!
 
-    println((B * doubleIdentity(3)).contentEquals(B))
-    println(A.contentEqualsInt(A))
+    println(mutB.scalarRowModify(1, 10.0))
 }
