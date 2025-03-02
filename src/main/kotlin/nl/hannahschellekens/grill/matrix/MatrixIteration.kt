@@ -16,6 +16,8 @@ class MatrixElementIterator<T>(private val matrix: Matrix<T>): Iterator<T>, Iter
 
 fun <T> Matrix<T>.elements() = MatrixElementIterator(this)
 
+fun <T> Matrix<T>.elementSequence() = Sequence { elements() }
+
 /**
  * @author Hannah Schellekens
  */
@@ -35,6 +37,8 @@ class MatrixRowIterator<T>(private val matrix: Matrix<T>): Iterator<Matrix<T>>, 
 
 fun <T> Matrix<T>.rows() = MatrixRowIterator(this)
 
+fun <T> Matrix<T>.rowSequence() = Sequence { rows() }
+
 /**
  * @author Hannah Schellekens
  */
@@ -53,6 +57,8 @@ class MatrixColumnIterator<T>(private val matrix: Matrix<T>): Iterator<Matrix<T>
 }
 
 fun <T> Matrix<T>.columns() = MatrixColumnIterator(this)
+
+fun <T> Matrix<T>.columnSequence() = Sequence { columns() }
 
 inline fun <T> Matrix<T>.forRowAndColumns(action: (row: Int, col: Int) -> Unit) {
     for (row in rowIndices) {

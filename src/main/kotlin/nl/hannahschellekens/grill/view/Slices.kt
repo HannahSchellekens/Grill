@@ -7,6 +7,15 @@ fun <T> Matrix<T>.view(rows: IntRange, cols: IntRange): View<T> {
     return MatrixView(this, rows.first * width + cols.first, cols.size, rows.size)
 }
 
+fun <T> Matrix<T>.view(startRow: Int, endRowInclusive: Int, startCol: Int, endColInclusive: Int): View<T> {
+    return MatrixView(
+        this, 
+        startRow * width + startCol,
+        endColInclusive - startCol + 1,
+        endRowInclusive - startRow + 1
+    )
+}
+
 operator fun <T> Matrix<T>.get(rows: IntRange, cols: IntRange) = view(rows, cols)
 
 fun <T> Matrix<T>.viewColumns(startColumn: Int): View<T> {

@@ -169,3 +169,13 @@ fun Matrix<Double>.deleteDoubleColumn(col: Int): Matrix<Double> = when {
 }
 
 fun <T> Matrix<T>.squareView(padding: T): View<T> = SquareView(this, padding)
+
+fun Matrix<Int>.reshapeInt(width: Int, height: Int): Matrix<Int> {
+    check (size == width * height) { "Expected size of $size, got <${width * height}>" }
+    return IntMatrix(width, height, IntArray(size) { this[it] })
+}
+
+fun Matrix<Double>.reshape(width: Int, height: Int): Matrix<Double> {
+    check (size == width * height) { "Expected size of $size, got <${width * height}>" }
+    return DoubleMatrix(width, height, DoubleArray(size) { this[it] })
+}

@@ -118,6 +118,10 @@ fun intRowVectorOf(elements: List<Int>): Matrix<Int> {
     return IntMatrix(elements.size, 1, elements.toIntArray())
 }
 
+inline fun intRowVector(width: Int, valueProducer: (index: Int) -> Int): Matrix<Int> {
+    return IntMatrix(width, 1, IntArray(width) { valueProducer(it) })
+}
+
 fun List<Int>.toRowIntVector(): Matrix<Int> = intRowVectorOf(this)
 
 fun intColumnVectorOf(vararg elements: Int): Matrix<Int> {
@@ -126,6 +130,10 @@ fun intColumnVectorOf(vararg elements: Int): Matrix<Int> {
 
 fun intColumnVectorOf(elements: List<Int>): Matrix<Int> {
     return IntMatrix(1, elements.size, elements.toIntArray())
+}
+
+inline fun intColumnVector(height: Int, valueProducer: (index: Int) -> Int): Matrix<Int> {
+    return IntMatrix(1, height, IntArray(height) { valueProducer(it) })
 }
 
 fun List<Int>.toColumnIntVector(): Matrix<Int> = intColumnVectorOf(this)
@@ -142,6 +150,10 @@ fun doubleRowVectorOf(elements: List<Double>): Matrix<Double> {
     return DoubleMatrix(elements.size, 1, elements.toDoubleArray())
 }
 
+inline fun doubleRowVector(width: Int, valueProducer: (index: Int) -> Double): Matrix<Double> {
+    return DoubleMatrix(width, 1, DoubleArray(width) { valueProducer(it) })
+}
+
 fun List<Double>.toRowDoubleVector(): Matrix<Double> = doubleRowVectorOf(this)
 
 fun doubleColumnVectorOf(vararg elements: Double): Matrix<Double> {
@@ -150,6 +162,10 @@ fun doubleColumnVectorOf(vararg elements: Double): Matrix<Double> {
 
 fun doubleColumnVectorOf(elements: List<Double>): Matrix<Double> {
     return DoubleMatrix(1, elements.size, elements.toDoubleArray())
+}
+
+inline fun doubleColumnVector(height: Int, valueProducer: (index: Int) -> Double): Matrix<Double> {
+    return DoubleMatrix(1, height, DoubleArray(height) { valueProducer(it) })
 }
 
 fun List<Double>.toColumnDoubleVector(): Matrix<Double> = doubleColumnVectorOf(this)
@@ -164,4 +180,40 @@ fun computedIntMatrix(width: Int, height: Int, valueProducer: (row: Int, col: In
 
 fun computedDoubleMatrix(width: Int, height: Int, valueProducer: (row: Int, col: Int) -> Double): Matrix<Double> {
     return ComputedMatrix(width, height, valueProducer)
+}
+
+fun intNullRow(width: Int): MutableMatrix<Int> = IntMatrix(width, 1, IntArray(width))
+
+fun intNullColumn(height: Int): MutableMatrix<Int> = IntMatrix(1, height, IntArray(height))
+
+fun doubleNullRow(width: Int): MutableMatrix<Double> = DoubleMatrix(width, 1, DoubleArray(width))
+
+fun doubleNullColumn(height: Int): MutableMatrix<Double> = DoubleMatrix(1, height, DoubleArray(height))
+
+fun List<Matrix<Int>>.toIntMatrixFromRows(): Matrix<Int> {
+    if (isEmpty()) return emptyIntMatrix()
+    val height = size
+    val width = first().size
+    return intMatrix(width, height) { row, col -> this[row][0, col] }
+}
+
+fun List<Matrix<Double>>.toDoubleMatrixFromRows(): Matrix<Double> {
+    if (isEmpty()) return emptyDoubleMatrix()
+    val height = size
+    val width = first().size
+    return doubleMatrix(width, height) { row, col -> this[row][0, col] }
+}
+
+fun List<Matrix<Int>>.toIntMatrixFromColumns(): Matrix<Int> {
+    if (isEmpty()) return emptyIntMatrix()
+    val width = size
+    val height = first().size
+    return intMatrix(width, height) { row, col -> this[col][row, 0] }
+}
+
+fun List<Matrix<Double>>.toDoubleMatrixFromColumns(): Matrix<Double> {
+    if (isEmpty()) return emptyDoubleMatrix()
+    val width = size
+    val height = first().size
+    return doubleMatrix(width, height) { row, col -> this[col][row, 0] }
 }
