@@ -1,15 +1,11 @@
 package nl.hannahschellekens.grill
 
-import nl.hannahschellekens.grill.matrix.*
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.*
-import nl.hannahschellekens.grill.operations.*
-import nl.hannahschellekens.grill.util.approxEquals
-import nl.hannahschellekens.grill.util.approxZero
-import nl.hannahschellekens.grill.view.view
-import nl.hannahschellekens.grill.view.viewColumns
-import nl.hannahschellekens.grill.view.viewRows
+import nl.hannahschellekens.grill.matrix.dimension
+import nl.hannahschellekens.grill.matrix.intMatrix
+import nl.hannahschellekens.grill.matrix.size
+import nl.hannahschellekens.grill.operations.max
+import nl.hannahschellekens.grill.operations.min
 import kotlin.random.Random
-import kotlin.system.measureTimeMillis
 
 /**
  * @author Hannah Schellekens
@@ -17,7 +13,7 @@ import kotlin.system.measureTimeMillis
 fun main() {
 
     val rand = Random(1234)
-    val A = intMatrix(10000, 10000) { _ -> rand.nextInt(0, 5) }
+    val A = intMatrix(10, 10) { _ -> rand.nextInt(0, 5) }
     println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
     println(A)
     println()

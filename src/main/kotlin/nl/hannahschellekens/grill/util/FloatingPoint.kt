@@ -2,7 +2,7 @@ package nl.hannahschellekens.grill.util
 
 import kotlin.math.abs
 
-const val DEFAULT_EPSILON: Double = 10E-9
+const val DEFAULT_EPSILON: Double = 10E-10
 
 fun Double.approxEquals(other: Double, epsilon: Double = DEFAULT_EPSILON): Boolean {
     return abs(this - other) < epsilon

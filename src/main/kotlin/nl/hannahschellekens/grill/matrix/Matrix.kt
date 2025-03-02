@@ -28,6 +28,35 @@ interface Matrix<T> {
             "Dimension mismatch <$dimension> vs other <${other.dimension}>"
         }
     }
+
+    fun contains(element: T): Boolean {
+        for (row in 0 until height) {
+            for (col in 0 until width) {
+                if (get(row, col) == element) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun rowContains(row: Int, element: T): Boolean {
+        for (col in 0 until width) {
+            if (get(row, col) == element) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun columnContains(column: Int, element: T): Boolean {
+        for (row in 0 until height) {
+            if (get(row, column) == element) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 /**
