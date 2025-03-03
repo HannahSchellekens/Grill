@@ -26,6 +26,22 @@ fun Matrix<Double>.toMatrix() = DoubleMatrix(width, height, DoubleArray(size) {
     this[it]
 })
 
+fun Matrix<Int>.rowInt(rowIndex: Int) = IntMatrix(width, 1, IntArray(width) {
+    this[rowIndex, it]
+})
+
+fun Matrix<Double>.row(rowIndex: Int) = DoubleMatrix(width, 1, DoubleArray(width) {
+    this[rowIndex, it]
+})
+
+fun Matrix<Int>.columnInt(columnIndex: Int) = IntMatrix(1, height, IntArray(height) {
+    this[it, columnIndex]
+})
+
+fun Matrix<Double>.column(columnIndex: Int) = DoubleMatrix(1, height, DoubleArray(height) {
+    this[it, columnIndex]
+})
+
 fun <T> Matrix<T>.transposed(): View<T> = if (isEmpty()) {
     EmptyView(this)
 }
