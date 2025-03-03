@@ -13,9 +13,5 @@ import kotlin.system.measureTimeMillis
  */
 fun main() {
 
-    val rand = Random(1234)
-    val A = intMatrix(10, 10) { _ -> rand.nextInt(0, 5) }
-    println("[A] Dim: ${A.dimension}, Size: ${A.size}, Max: ${A.max()}, Min: ${A.min()}")
-    println(A)
-    println()
+    intRowVectorOf()
 }
