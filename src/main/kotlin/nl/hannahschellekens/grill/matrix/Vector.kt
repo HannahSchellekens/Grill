@@ -2,6 +2,10 @@ package nl.hannahschellekens.grill.matrix
 
 import nl.hannahschellekens.grill.util.size
 
+fun Matrix<*>.checkVector() {
+    check(width == 1 || height == 1) { "Matrix is not a vector, got <$dimension>" }
+}
+
 fun intRowVectorOf(vararg elements: Int): Matrix<Int> {
     return IntMatrix(elements.size, 1, elements)
 }
