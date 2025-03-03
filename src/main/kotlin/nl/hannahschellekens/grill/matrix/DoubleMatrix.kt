@@ -1,5 +1,6 @@
 package nl.hannahschellekens.grill.matrix
 
+import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.SortableByElement
 import nl.hannahschellekens.grill.util.DEFAULT_EPSILON
 import nl.hannahschellekens.grill.util.approxEquals
 
@@ -12,7 +13,7 @@ open class DoubleMatrix(
     // RMO by default - modify with Views.
     private val elements: DoubleArray,
     val epsilon: Double = DEFAULT_EPSILON
-) : MutableMatrix<Double> {
+) : MutableMatrix<Double>, SortableByElement<Double> {
 
     override fun set(row: Int, col: Int, value: Double) {
         checkBounds(row, col)
@@ -24,6 +25,10 @@ open class DoubleMatrix(
         checkBounds(row, col)
 
         return elements[row * width + col]
+    }
+
+    override fun sort() {
+        elements().sorted()
     }
 
     override fun contains(element: Double): Boolean {

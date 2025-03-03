@@ -3,6 +3,7 @@ package nl.hannahschellekens.grill
 import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.angle
 import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.distance
+import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.sortElements
 import nl.hannahschellekens.grill.operations.*
 import kotlin.math.PI
 import kotlin.math.acos
@@ -37,4 +38,11 @@ fun main() {
     println("||a||2 = ${a.normEuclidean()}")
     println("||a||inf = ${a.normInfinity()}")
     println("||a - b|| = ${a.toDoubleMatrix().distance(b.toDoubleMatrix())}")
+    println()
+
+    val r = intRowVector(10) { _ -> Random.nextInt(0, 100) }.mutable!!
+    println("r: $r")
+
+    r.sortElements()
+    println("r sorted: $r")
 }

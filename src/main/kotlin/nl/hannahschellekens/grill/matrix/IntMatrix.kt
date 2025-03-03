@@ -1,5 +1,7 @@
 package nl.hannahschellekens.grill.matrix
 
+import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.SortableByElement
+
 /**
  * @author Hannah Schellekens
  */
@@ -8,7 +10,7 @@ open class IntMatrix(
     override val height: Int,
     // RMO by default - modify with Views.
     private val elements: IntArray
-) : MutableMatrix<Int> {
+) : MutableMatrix<Int>, SortableByElement<Int> {
 
     override fun set(row: Int, col: Int, value: Int) {
         checkBounds(row, col)
@@ -20,6 +22,10 @@ open class IntMatrix(
         checkBounds(row, col)
 
         return elements[row * width + col]
+    }
+
+    override fun sort() {
+        elements.sort()
     }
 
     override fun toString() = printString()
