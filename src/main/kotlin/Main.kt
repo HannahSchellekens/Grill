@@ -1,11 +1,12 @@
 package nl.hannahschellekens.grill
 
-import nl.hannahschellekens.grill.matrix.dimension
-import nl.hannahschellekens.grill.matrix.intMatrix
-import nl.hannahschellekens.grill.matrix.size
+import nl.hannahschellekens.grill.matrix.*
 import nl.hannahschellekens.grill.operations.max
 import nl.hannahschellekens.grill.operations.min
+import nl.hannahschellekens.grill.operations.set
+import nl.hannahschellekens.grill.operations.setWhen
 import kotlin.random.Random
+import kotlin.system.measureTimeMillis
 
 /**
  * @author Hannah Schellekens

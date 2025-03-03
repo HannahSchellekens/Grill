@@ -1,6 +1,7 @@
 package nl.hannahschellekens.grill.operations
 
 import nl.hannahschellekens.grill.matrix.*
+import nl.hannahschellekens.grill.view.View
 
 inline fun <T> MutableMatrix<T>.setValue(row: Int, col: Int, valueTransform: (T) -> T): MutableMatrix<T> {
     set(row, col, valueTransform(this[row, col]))
@@ -169,6 +170,36 @@ inline fun <T> MutableMatrix<T>.setAllIndexed(
             val element = this[row, col]
             this[row, col] = valueTransform(row, col, element)
         }
+    }
+    return this
+}
+
+operator fun <T> MutableMatrix<T>.set(rowIndices: Matrix<Int>, columnIndices: Matrix<Int>, values: Matrix<T>): MutableMatrix<T> {
+    check(rowIndices.size == columnIndices.size) {
+        "Row indices size <${rowIndices.size}> is different from column indices size <${columnIndices.size}>"
+    }
+    check(rowIndices.size == values.size) {
+        "Row indices size <${rowIndices.size}> is different from values size <${columnIndices.size}>"
+    }
+
+    for (i in 0 until rowIndices.size) {
+        val row = rowIndices[i]
+        val col = columnIndices[i]
+        val value = values[i]
+        this[row, col] = value
+    }
+    return this
+}
+
+operator fun <T> MutableMatrix<T>.set(rowIndices: Matrix<Int>, columnIndices: Matrix<Int>, value: T): MutableMatrix<T> {
+    check(rowIndices.size == columnIndices.size) {
+        "Row indices size <${rowIndices.size}> is different from column indices size <${columnIndices.size}>"
+    }
+
+    for (i in 0 until rowIndices.size) {
+        val row = rowIndices[i]
+        val col = columnIndices[i]
+        this[row, col] = value
     }
     return this
 }
