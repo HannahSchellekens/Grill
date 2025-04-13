@@ -1,48 +1,52 @@
 package nl.hannahschellekens.grill
 
+import nl.hannahschellekens.grill.algorithm.HungarianAlgorithm
+import nl.hannahschellekens.grill.graph.AdjacencyList
 import nl.hannahschellekens.grill.matrix.*
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.angle
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.distance
-import nl.hannahschellekens.grill.nl.hannahschellekens.grill.operations.sortElements
-import nl.hannahschellekens.grill.operations.*
-import kotlin.math.PI
-import kotlin.math.acos
-import kotlin.math.sqrt
-import kotlin.random.Random
-import kotlin.system.measureTimeMillis
+import nl.hannahschellekens.grill.operations.subtractColumnMinima
+import nl.hannahschellekens.grill.operations.subtractRowMinima
 
 /**
  * @author Hannah Schellekens
  */
 fun main() {
+//    val test = doubleMatrixOf(5, 5,
+//        30.41, 34.72, 28.89, 27.16, 99.99,
+//        32.78, 37.19, 29.83, 27.65, 99.99,
+//        34.72, 37.22, 33.61, 29.61, 99.99,
+//        33.47, 38.49, 33.62, 28.95, 99.99,
+//        34.92, 39.32, 33.50, 30.04, 99.99
+//    )
+//    val algo = HungarianAlgorithm(test)
+//    val assignment = algo.assignJobs()
+//
+//    println("\nOptimal assignment:")
+//    assignment.forEach { (worker, task) ->
+//        println("Worker $worker -> Task $task")
+//    }
 
-    val n = 5
 
-    val v = intRowVectorOf(1, 2, 3, 4, 5)
-    val w = intRowVectorOf(6, 7, 8, 9, 10)
 
-    println("v: $v\nw: $w")
 
-    println("||v|| = ${v.norm()}, ||w|| = ${w.norm()}")
-    println("v.w = ${v.dotProductInt(w)}, vwT = ${v.multiplyInt(w.transposed())}")
 
-    println("angle(v,w) = ${v.angle(w)}")
+    val test2 = intMatrixOf(10, 10,
+        48, 51, 27, 33, 66, 12, 82, 36, 27, 22,
+        25, 29, 45, 81, 30, 8, 69, 10, 94, 85,
+        63, 46, 40, 67, 20, 26, 74, 80, 87, 85,
+        93, 51, 74, 16, 69, 76, 41, 49, 42, 38,
+        52, 19, 48, 87, 6, 92, 70, 75, 62, 87,
+        55, 81, 57, 7, 85, 54, 5, 6, 90, 75,
+        49, 82, 2, 65, 28, 33, 54, 25, 63, 3,
+        39, 3, 1, 79, 10, 59, 99, 32, 76, 77,
+        61, 23, 63, 84, 87, 84, 76, 82, 94, 88,
+        95, 4, 16, 4, 73, 76, 88, 31, 58, 38,
+    ).toDoubleMatrix()
 
-    println()
+    val algo2 = HungarianAlgorithm(test2)
+    val assignment2 = algo2.assignJobs()
 
-    val a = intRowVectorOf(1, 2, -3)
-    val b = intRowVectorOf(1, 2, 3)
-
-    println("a: $a, b: $b")
-    println("||a||1 = ${a.normOne()}")
-    println("||a||2 = ${a.normEuclidean()}")
-    println("||a||inf = ${a.normInfinity()}")
-    println("||a - b|| = ${a.toDoubleMatrix().distance(b.toDoubleMatrix())}")
-    println()
-
-    val r = intRowVector(10) { _ -> Random.nextInt(0, 100) }.mutable!!
-    println("r: $r")
-
-    r.sortElements()
-    println("r sorted: $r")
+    println("\nOptimal assignment 2:")
+    assignment2.forEach { (worker, task) ->
+        println("Worker $worker -> Task $task")
+    }
 }
