@@ -8,6 +8,7 @@ import nl.hannahschellekens.grill.operations.*
 import nl.hannahschellekens.grill.util.DEFAULT_EPSILON
 import nl.hannahschellekens.grill.util.approxZero
 import nl.hannahschellekens.grill.util.toOrdered
+import kotlin.math.min
 
 /**
  * Solves a job assignment problem represented by a square (`n`x`n`) cost matrix.
@@ -20,18 +21,21 @@ import nl.hannahschellekens.grill.util.toOrdered
  *
  * I do not want to claim anything about runtime yet. It's too scary.
  * With a _correct_ implementation it should be _at most_ `O(n^4)` with `n` being the amount of workers.
+ * From experimental and a quick handwavy analysis I arrived at an approximate run time of `O(n^3)` for `n` workers.
  *
  * @param costMatrix The `n`x`n` cost matrix of assigning worker `i` at the rows to the job `j` on the columns.
  * Each matrix element `(i,j)` is the cost of assigning worker `i` to job `j`.
  * @param goal How to optimize the assignment.
  * @param epsilon Floating point equality threshold.
+ * @param maxIterations The maximum amount of iterations the algorithm may use.
  *
  * @author Hannah Schellekens
  */
 open class HungarianAlgorithm(
     val costMatrix: Matrix<Double>,
     val goal: Goal = Goal.MINIMIZE,
-    val epsilon: Double = DEFAULT_EPSILON
+    val epsilon: Double = DEFAULT_EPSILON,
+    val maxIterations: Int = Int.MAX_VALUE
 ) : JobAssignmentAlgorithm {
 
     /**
@@ -42,46 +46,57 @@ open class HungarianAlgorithm(
     init {
         check(costMatrix.isSquare) { "Cost matrix must be square, got <${costMatrix.dimension}> " }
     }
-    // TODO: Preprocess maximum.
+
     override fun assignJobs(): JobAssignment {
         if (costMatrix.isEmpty()) return emptyMap()
 
+        // Make a working copy.
         matrix = costMatrix.toMatrix()
-//                println("Matrix:\n${matrix.toIntMatrix()}\n")
 
+        // Prepare matrix.
+        if (goal == Goal.MAXIMIZE) {
+            maximize()
+        }
         matrix.subtractRowMinima()
-//                println("After row minima subtracted:\n${matrix.toIntMatrix()}\n")
         matrix.subtractColumnMinima()
-//                println("After column minima subtracted:\n${matrix.toIntMatrix()}\n")
 
-        var iters = 0
-        while (iters < Int.MAX_VALUE) {
-//            println("==================================== ITERATION $iters ====================================")
-
+        var iterationCount = 0
+        while (iterationCount < maxIterations) {
+            // Represent the matrix as a bipartite graph:
+            // - Partition A containing vertices for each worker.
+            // - Partition B containing vertices for each job.
+            // Every edge in the graph represents a 0 in the matrix.
+            // A job assignment requires each worker to be assigned a job with a 0 in the matrix, i.e. an edge in the
+            // graph. A maximum bipartite matching covering all workers means we have found our assignment!
             val graph = buildCoverGraph()
-//            println("Cover graph:\n$graph\n")
             val matching = graph.maximumBipartiteMatching(matrix.height)
-//            println("Maxmimum matching:\n$matching\n")
 
-//            check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
-//                "[!!] Matching contains duplicate vertices!"
-//            }
-
-            // Assignment is solved if all zeroes are covered, i.e. the matching matches all vertices.
+            // We have found a matching for all workers!
             if (matching.size == matrix.height) {
-//                println("Assignment: ${matching.toJobAssignment()}")
                 return matching.toJobAssignment()
             }
             // Not done yet: create additional zeros and try again!
             else {
                 val (rowCover, columnCover) = matching.toLineCovers(graph)
-//                println("Row cover: $rowCover\nColumn cover: $columnCover\n")
                 createAdditionalZeros(rowCover, columnCover)
-//                println("Additional zeros:\n${matrix.toIntMatrix()}\n")
             }
-            iters++
+            iterationCount++
         }
-        return emptyMap()
+        error("Maximum iterations <$iterationCount> exceeded (<$maxIterations>)")
+    }
+
+    /**
+     * Updates the matrix to start finding an assignment to maximize the total cost.
+     */
+    private fun maximize() {
+        // To maximize: negate all values and make the matrix non-negative.
+        var smallest = Double.MAX_VALUE
+        matrix.setAll {
+            smallest = min(it, smallest)
+            -it
+        }
+
+        matrix.setAll { it - smallest }
     }
 
     /**
@@ -107,8 +122,6 @@ open class HungarianAlgorithm(
     private fun Matching.toLineCovers(coverGraph: AdjacencyList): Pair<Set<Int>, Set<Int>> {
         val matchedRows = this.map { it.first }.toSet()
         val unmatched = (0 until matrix.height).filter { it !in matchedRows }
-
-//        println("Unmatched rows: $unmatched")
 
         val totalVisited = HashSet<Int>()
         val visitedRows = HashSet<Int>()
@@ -141,11 +154,7 @@ open class HungarianAlgorithm(
             }
         }
 
-//        println("Visited Rows: $visitedRows")
-//        println("Visited Columns: $visitedColumns")
-
         val rowCover = (0 until matrix.height).filter { it !in visitedRows }.toSet()
-
         return rowCover to visitedColumns
     }
 
@@ -175,8 +184,6 @@ open class HungarianAlgorithm(
         val smallestUncovered = matrix.minIf { row, col -> row !in rowCover && col !in columnCover }
             ?: error("There is no smallest cover value: rowCover <$rowCover> and/or columnCover <$columnCover> must be incorrect ")
 
-//                println("Smallest uncovered: $smallestUncovered\n")
-
         // Subtract this value from all uncovered values. Add double the value to doubly covered elements.
         matrix.forRowAndColumns { row, col ->
             if (row !in rowCover && col !in columnCover) {
@@ -186,7 +193,6 @@ open class HungarianAlgorithm(
                 matrix[row, col] += smallestUncovered * 2
             }
         }
-//                println("Smallest value subtracted from uncovered values, and *2 added to double covered:\n${matrix.toIntMatrix()}\n")
     }
 
     /**
