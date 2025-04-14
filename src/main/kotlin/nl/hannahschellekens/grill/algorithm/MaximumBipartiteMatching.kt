@@ -5,6 +5,44 @@ import nl.hannahschellekens.grill.graph.Edge
 import nl.hannahschellekens.grill.graph.Matching
 import nl.hannahschellekens.grill.graph.Path
 import nl.hannahschellekens.grill.util.toOrdered
+import nl.hannahschellekens.grill.util.toPair
+
+fun main() {
+
+    val coverGraph = AdjacencyList(28).apply {
+        addUndirectedEdge(0, 17)
+        addUndirectedEdge(1, 16)
+        addUndirectedEdge(2, 22)
+        addUndirectedEdge(3, 20)
+        addUndirectedEdge(3, 21)
+        addUndirectedEdge(4, 19)
+        addUndirectedEdge(5, 22)
+        addUndirectedEdge(5, 25)
+        addUndirectedEdge(6, 14)
+        addUndirectedEdge(6, 26)
+        addUndirectedEdge(7, 20)
+        addUndirectedEdge(7, 27)
+        addUndirectedEdge(8, 17)
+        addUndirectedEdge(8, 19)
+        addUndirectedEdge(9, 19)
+        addUndirectedEdge(9, 23)
+        addUndirectedEdge(10, 20)
+        addUndirectedEdge(11, 25)
+        addUndirectedEdge(12, 15)
+        addUndirectedEdge(12, 16)
+        addUndirectedEdge(12, 18)
+        addUndirectedEdge(12, 24)
+        addUndirectedEdge(13, 15)
+    }
+    println("> Cover graph:\n$coverGraph\nt")
+    val matching = coverGraph.maximumBipartiteMatching(14)
+    println("> Matching:\n$matching\n")
+
+    check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+        "[!!] Matching contains duplicate vertices!"
+    }
+}
+
 
 /**
  * Calculates the maximum matching for a bipartite graph.
@@ -91,8 +129,15 @@ private fun AdjacencyList.findAugmentingPaths(
             if (current !in visited) {
                 visited.add(current)
 
-                levelGraph.adjacentVertices(current)
+                levelGraph.adjacentVertices(current).asSequence()
                     .filter { it !in visited && vertexMap[it] !in pathNodes }
+                    // Make sure that matched and unmatched edges are alternated.
+                    .filter {
+                        if (path.size < 2) return@filter true
+                        val previousPath = path.takeLast(2).sorted().toPair()
+                        val nextPath = vertexMap[current]!! toOrdered vertexMap[it]!!
+                        previousPath in matching != nextPath in matching
+                    }
                     .forEach { neighbour ->
                         val realIndexInGraph = vertexMap[neighbour]
                             ?: error("Neighbour <$neighbour> does not exist in vertex map <$vertexMap>")
@@ -201,4 +246,8 @@ private fun flipAugmentingPathEdges(
     }
     println("Covered vertices after augmentation: $coveredVertices")
     println("Matching after augmentation: $matching\n")
+
+    check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+        "[!!] Matching contains duplicate vertices!"
+    }
 }

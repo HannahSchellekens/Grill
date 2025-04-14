@@ -55,13 +55,17 @@ open class HungarianAlgorithm(
                 println("After column minima subtracted:\n${matrix.toIntMatrix()}\n")
 
         var iters = 0
-        while (iters < 7) {
+        while (iters < 70) {
             println("==================================== ITERATION $iters ====================================")
 
             val graph = buildCoverGraph()
             println("Cover graph:\n$graph\n")
             val matching = graph.maximumBipartiteMatching(matrix.height)
             println("Maxmimum matching:\n$matching\n")
+
+            check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+                "[!!] Matching contains duplicate vertices!"
+            }
 
             // Assignment is solved if all zeroes are covered, i.e. the matching matches all vertices.
             if (matching.size == matrix.height) {
