@@ -9,33 +9,64 @@ import nl.hannahschellekens.grill.util.toPair
 
 fun main() {
 
-    val coverGraph = AdjacencyList(28).apply {
-        addUndirectedEdge(0, 17)
-        addUndirectedEdge(1, 16)
-        addUndirectedEdge(2, 22)
-        addUndirectedEdge(3, 20)
-        addUndirectedEdge(3, 21)
-        addUndirectedEdge(4, 19)
-        addUndirectedEdge(5, 22)
-        addUndirectedEdge(5, 25)
-        addUndirectedEdge(6, 14)
-        addUndirectedEdge(6, 26)
-        addUndirectedEdge(7, 20)
-        addUndirectedEdge(7, 27)
-        addUndirectedEdge(8, 17)
-        addUndirectedEdge(8, 19)
-        addUndirectedEdge(9, 19)
-        addUndirectedEdge(9, 23)
-        addUndirectedEdge(10, 20)
-        addUndirectedEdge(11, 25)
-        addUndirectedEdge(12, 15)
-        addUndirectedEdge(12, 16)
-        addUndirectedEdge(12, 18)
-        addUndirectedEdge(12, 24)
-        addUndirectedEdge(13, 15)
+    // Test: Duplicate rows in matching.
+//    val coverGraph = AdjacencyList(28).apply {
+//        addUndirectedEdge(0, 17)
+//        addUndirectedEdge(1, 16)
+//        addUndirectedEdge(2, 22)
+//        addUndirectedEdge(3, 20)
+//        addUndirectedEdge(3, 21)
+//        addUndirectedEdge(4, 19)
+//        addUndirectedEdge(5, 22)
+//        addUndirectedEdge(5, 25)
+//        addUndirectedEdge(6, 14)
+//        addUndirectedEdge(6, 26)
+//        addUndirectedEdge(7, 20)
+//        addUndirectedEdge(7, 27)
+//        addUndirectedEdge(8, 17)
+//        addUndirectedEdge(8, 19)
+//        addUndirectedEdge(9, 19)
+//        addUndirectedEdge(9, 23)
+//        addUndirectedEdge(10, 20)
+//        addUndirectedEdge(11, 25)
+//        addUndirectedEdge(12, 15)
+//        addUndirectedEdge(12, 16)
+//        addUndirectedEdge(12, 18)
+//        addUndirectedEdge(12, 24)
+//        addUndirectedEdge(13, 15)
+//    }
+//    println("> Cover graph:\n$coverGraph\nt")
+//    val matching = coverGraph.maximumBipartiteMatching(14)
+//    println("> Matching:\n$matching\n")
+//
+//    check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+//        "[!!] Matching contains duplicate vertices!"
+//    }
+
+    // Test: Duplicate columns in matching.
+    val coverGraph = AdjacencyList(22).apply {
+        addUndirectedEdge(0, 13)
+        addUndirectedEdge(0, 14)
+        addUndirectedEdge(1, 15)
+        addUndirectedEdge(1, 18)
+        addUndirectedEdge(1, 19)
+        addUndirectedEdge(2, 11)
+        addUndirectedEdge(2, 18)
+        addUndirectedEdge(3, 19)
+        addUndirectedEdge(4, 11)
+        addUndirectedEdge(4, 13)
+        addUndirectedEdge(5, 15)
+        addUndirectedEdge(6, 12)
+        addUndirectedEdge(6, 16)
+        addUndirectedEdge(6, 17)
+        addUndirectedEdge(7, 12)
+        addUndirectedEdge(8, 12)
+        addUndirectedEdge(8, 20)
+        addUndirectedEdge(9, 21)
+        addUndirectedEdge(10, 14)
     }
-    println("> Cover graph:\n$coverGraph\nt")
-    val matching = coverGraph.maximumBipartiteMatching(14)
+    println("> Cover graph:\n$coverGraph\n")
+    val matching = coverGraph.maximumBipartiteMatching(11)
     println("> Matching:\n$matching\n")
 
     check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
@@ -69,8 +100,8 @@ fun AdjacencyList.maximumBipartiteMatching(sizeFirstPartition: Int): Set<Edge> {
         coveredVertices += possibleMatch
     }
 
-    println("Initial matching (@maximumBipartiteMatching):\n$matching")
-    println("Initial covered vertices:\n$coveredVertices\n")
+//    println("Initial matching (@maximumBipartiteMatching):\n$matching")
+//    println("Initial covered vertices:\n$coveredVertices\n")
 
     // All vertices matched? We are already done. Good job.
     if (matching.size == sizeFirstPartition) return matching
@@ -98,9 +129,9 @@ private fun AdjacencyList.findAugmentingPaths(
 
     // First do a BFS to find all possible paths to the level with the first uncovered vertices.
     val (levelGraph, vertexMap) = findAlternatingGraph(matching, coveredVertices, sizeFirstPartition)
-    println("Alternating level graph:\n$levelGraph\n")
-    println("Leaves: ${levelGraph.findLeaves()}")
-    println("Covered vertices: ${coveredVertices}\n")
+//    println("Alternating level graph:\n$levelGraph\n")
+//    println("Leaves: ${levelGraph.findLeaves()}")
+//    println("Covered vertices: ${coveredVertices}\n")
 
     // Backtrack from the uncovered leaves to the root node with DFS to find the augmenting paths.
     // `pathNodes`: Stores all vertices that have been visited by the DFS backtracing.
@@ -121,6 +152,12 @@ private fun AdjacencyList.findAugmentingPaths(
 
         while (stack.isNotEmpty()) {
             val (current, path) = stack.removeFirst()
+
+            // If the path contains nodes that have already been traversed, stop execution.
+            // This needs to be checked, because branched paths on the stack can have
+            // an earlier branch already having found a correct path.
+            if (path.any { it in pathNodes }) continue
+
             if (leaf != current && vertexMap[current] !in coveredVertices) {
                 resultPath = path
                 break
@@ -149,9 +186,10 @@ private fun AdjacencyList.findAugmentingPaths(
         resultPath?.let {
             pathNodes.addAll(it)
             augmentingPaths.add(it)
+//            println(">>> Added $it, all path nodes: $pathNodes")
         }
     }
-    println("Augmenting paths found:\n${augmentingPaths.joinToString("\n", prefix = "> ")}\n")
+//    println("Augmenting paths found:\n${augmentingPaths.joinToString("\n") { "> ${it.toString()}" }}\n")
 
     return augmentingPaths
 }
@@ -218,7 +256,7 @@ private fun AdjacencyList.findAlternatingGraph(
             nodesInLevel = nodesInNextLevel
         }
 
-        println("Vertex Map:\n$vertexMap\n")
+//        println("Vertex Map:\n$vertexMap\n")
     } to vertexMap
 }
 
@@ -244,10 +282,10 @@ private fun flipAugmentingPathEdges(
             }
         }
     }
-    println("Covered vertices after augmentation: $coveredVertices")
-    println("Matching after augmentation: $matching\n")
+//    println("Covered vertices after augmentation: $coveredVertices")
+//    println("Matching after augmentation: $matching\n")
 
-    check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
-        "[!!] Matching contains duplicate vertices!"
-    }
+//    check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+//        "[!!] Matching contains duplicate vertices!"
+//    }
 }

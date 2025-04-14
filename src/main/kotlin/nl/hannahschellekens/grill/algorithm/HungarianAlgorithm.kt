@@ -47,37 +47,37 @@ open class HungarianAlgorithm(
         if (costMatrix.isEmpty()) return emptyMap()
 
         matrix = costMatrix.toMatrix()
-                println("Matrix:\n${matrix.toIntMatrix()}\n")
+//                println("Matrix:\n${matrix.toIntMatrix()}\n")
 
         matrix.subtractRowMinima()
-                println("After row minima subtracted:\n${matrix.toIntMatrix()}\n")
+//                println("After row minima subtracted:\n${matrix.toIntMatrix()}\n")
         matrix.subtractColumnMinima()
-                println("After column minima subtracted:\n${matrix.toIntMatrix()}\n")
+//                println("After column minima subtracted:\n${matrix.toIntMatrix()}\n")
 
         var iters = 0
-        while (iters < 70) {
-            println("==================================== ITERATION $iters ====================================")
+        while (iters < Int.MAX_VALUE) {
+//            println("==================================== ITERATION $iters ====================================")
 
             val graph = buildCoverGraph()
-            println("Cover graph:\n$graph\n")
+//            println("Cover graph:\n$graph\n")
             val matching = graph.maximumBipartiteMatching(matrix.height)
-            println("Maxmimum matching:\n$matching\n")
+//            println("Maxmimum matching:\n$matching\n")
 
-            check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
-                "[!!] Matching contains duplicate vertices!"
-            }
+//            check(matching.flatMap { listOf(it.first, it.second) }.distinct().size == matching.size * 2) {
+//                "[!!] Matching contains duplicate vertices!"
+//            }
 
             // Assignment is solved if all zeroes are covered, i.e. the matching matches all vertices.
             if (matching.size == matrix.height) {
-                println("Assignment: ${matching.toJobAssignment()}")
+//                println("Assignment: ${matching.toJobAssignment()}")
                 return matching.toJobAssignment()
             }
             // Not done yet: create additional zeros and try again!
             else {
                 val (rowCover, columnCover) = matching.toLineCovers(graph)
-                println("Row cover: $rowCover\nColumn cover: $columnCover\n")
+//                println("Row cover: $rowCover\nColumn cover: $columnCover\n")
                 createAdditionalZeros(rowCover, columnCover)
-                println("Additional zeros:\n${matrix.toIntMatrix()}\n")
+//                println("Additional zeros:\n${matrix.toIntMatrix()}\n")
             }
             iters++
         }
@@ -108,7 +108,7 @@ open class HungarianAlgorithm(
         val matchedRows = this.map { it.first }.toSet()
         val unmatched = (0 until matrix.height).filter { it !in matchedRows }
 
-        println("Unmatched rows: $unmatched")
+//        println("Unmatched rows: $unmatched")
 
         val totalVisited = HashSet<Int>()
         val visitedRows = HashSet<Int>()
@@ -141,8 +141,8 @@ open class HungarianAlgorithm(
             }
         }
 
-        println("Visited Rows: $visitedRows")
-        println("Visited Columns: $visitedColumns")
+//        println("Visited Rows: $visitedRows")
+//        println("Visited Columns: $visitedColumns")
 
         val rowCover = (0 until matrix.height).filter { it !in visitedRows }.toSet()
 
@@ -175,7 +175,7 @@ open class HungarianAlgorithm(
         val smallestUncovered = matrix.minIf { row, col -> row !in rowCover && col !in columnCover }
             ?: error("There is no smallest cover value: rowCover <$rowCover> and/or columnCover <$columnCover> must be incorrect ")
 
-                println("Smallest uncovered: $smallestUncovered\n")
+//                println("Smallest uncovered: $smallestUncovered\n")
 
         // Subtract this value from all uncovered values. Add double the value to doubly covered elements.
         matrix.forRowAndColumns { row, col ->
@@ -186,7 +186,7 @@ open class HungarianAlgorithm(
                 matrix[row, col] += smallestUncovered * 2
             }
         }
-                println("Smallest value subtracted from uncovered values, and *2 added to double covered:\n${matrix.toIntMatrix()}\n")
+//                println("Smallest value subtracted from uncovered values, and *2 added to double covered:\n${matrix.toIntMatrix()}\n")
     }
 
     /**
